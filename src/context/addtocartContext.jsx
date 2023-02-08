@@ -14,8 +14,8 @@ const CartContext=createContext();
 const initialState={
     cart:getLocalcartData(),
     total_item:"",
-    total_amount:"",
-    shipping_fee:5000
+    total_price:"",
+    shipping_fee:8000
 
 }
 const CartProvider=({children})=>{
@@ -24,6 +24,7 @@ const addtoCart=(id,activeColor,amount,product)=>{
     console.log(product);
     dispatch({type:"ADD_TO_CART", payload:{id,activeColor,amount,product}})
 }
+// console.log(state.total_amount);
 
 const RemoveCartItem=(id)=>{
     dispatch({type:"REMOVE_CART_ITEM",payload:id })
@@ -44,10 +45,21 @@ function setDecrease(id){
 
     
 };
+function SubTotal(){
+    dispatch({type:"SUBTOTAL_PRICE"});
+
+}
+function CartNo(){
+    
+    dispatch({type:"SET_NO_OF_PRODUCTS"})
+}
 useEffect(()=>{
+    
     localStorage.setItem("userCartData",JSON.stringify(state.cart))
+    CartNo()
+    SubTotal();
 },[state.cart])
-    return <CartContext.Provider value={{...state,addtoCart,RemoveCartItem,clearCart,setIncrease,setDecrease}}>{children}</CartContext.Provider>
+    return <CartContext.Provider value={{...state,addtoCart,RemoveCartItem,clearCart,setIncrease,setDecrease,}}>{children}</CartContext.Provider>
     
 };
 

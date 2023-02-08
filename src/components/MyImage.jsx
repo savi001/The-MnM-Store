@@ -82,7 +82,7 @@ const Wrapper = styled.section`
     order: 1;
     .mobile-img {
       display: grid;
-    z-index: 9999;
+    z-index: 1;
       max-width: 100%;
       height: auto;
       box-shadow: ${({ theme }) => theme.colors.shadow};

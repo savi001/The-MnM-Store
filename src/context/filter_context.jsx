@@ -44,7 +44,7 @@ export const FilterContextProvider = ({ children }) => {
   };
   const getMaxValue=(value)=>{
     console.log(value);
-  //  dispatch({type:"SET_MAX_PRICE_FILTER", payload:value})
+  //  dispatch({type:"SET_MAX_PRICE_FILTER", payload:value}) 
   }
   const getMinValue=(value)=>{
     console.log("this "+value);
@@ -54,7 +54,10 @@ export const FilterContextProvider = ({ children }) => {
 //     const value=event.target.value;
 //     return dispatch ({type:"CATEGORY_FILTER",payload:{value, products}})
 //   }
-
+const ClearFilters=()=>{
+  console.log("CLEAR FILTERS FUNCTIOn");
+   dispatch({type:"CLEAR_FILTERS"});
+}
 useEffect(()=>{
  
 
@@ -81,7 +84,8 @@ useEffect(()=>{
         getSortingValue,
         updateFilterValue,
         getMaxValue,
-        getMinValue
+        getMinValue,
+        ClearFilters
       }}
     >
       {children}

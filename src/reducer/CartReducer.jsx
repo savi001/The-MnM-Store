@@ -105,6 +105,28 @@ const CartReducer = (state,action) => {
           });
           return { ...state, cart: updatedProduct };
     }
+    if(action.type==="SET_NO_OF_PRODUCTS"){
+        let sum=0;
+        const total=state.cart.map((currentElement)=>{
+            return sum=sum+currentElement.amount;
+        })
+        console.log(sum);
+        return{
+            ...state,
+            total_item:sum
+        }
+    }
+    if(action.type==="SUBTOTAL_PRICE"){
+        let sum=0;
+        const subtotal=state.cart.map((currentElement)=>{
+            return sum=sum+currentElement.amount*currentElement.price
+        })
+        console.log(sum);
+        return{
+            ...state,
+            total_price:sum
+        }
+    }
    
   return (
    state

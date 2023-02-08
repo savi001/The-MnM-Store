@@ -3,10 +3,12 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiShoppingCart } from 'react-icons/fi';
 import {CgMenu,CgClose}from 'react-icons/cg';
+import { useCartContext } from '../context/addtocartContext';
 
 const Nav = () => {
     const [menuLine,setMenu]=useState(false);
- 
+ const { total_item}=useCartContext();
+ console.log(total_item);
   return (
     <Navtag>
         <div className={menuLine?'navbar active ':'navbar'}>
@@ -25,7 +27,7 @@ const Nav = () => {
                 </li>
                 <li>
                 <NavLink to="/cart" className="navbar-link cart-trolley--link" onClick={()=>setMenu(false)}><FiShoppingCart className='cart-trolley'/>
-                <span className='cart-total--item'>10</span></NavLink>
+                <span className='cart-total--item'>{ total_item}</span></NavLink>
                 </li>
              </ul>
              {/* two button for open and close for mobile size */}

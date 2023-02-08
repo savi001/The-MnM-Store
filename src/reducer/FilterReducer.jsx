@@ -58,7 +58,21 @@ const reducer = (state, action) => {
          ...state,
          filters:{...state.filters,maxPrice:action.payload}
         }
-      
+    case "CLEAR_FILTERS":
+      console.log("CLEAR REDUCER");
+      return{
+        ...state,
+        filters:{
+          ...state.filters,
+          text: "",
+    category:"All",
+    company:"All",
+    color:"All",
+    price:0,
+    minPrice:0,
+    maxPrice:0,
+        },
+      };
     case "FILTER_PRODUCTS":
        let {all_products}=state
        let tempFilterProduct=[...all_products]

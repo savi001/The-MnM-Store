@@ -4,14 +4,15 @@ import { useFilterContext } from '../context/filter_context';
 import { FaCheck } from 'react-icons/fa';
 import FormatPrice from './FromatPrice';
 import MultiRangeSlider from "multi-range-slider-react";
+import { Button } from '../styles/Button';
+
 
 const FilterSection = () => {
  
-  const [value, setValue] = useState([1000, 4333])
-  const {filters:{text,category,color,price,maxPrice,minPrice},updateFilterValue, all_products,FilterCategory,getMaxValue,getMinValue}=useFilterContext();
-  const [minValue, set_minValue] = useState(0);
-  const properMax=Math.round(maxPrice/100)
-  const [maxValue, set_maxValue] = useState(10000);
+  const {filters:{text,category,color,price,maxPrice,minPrice},updateFilterValue, all_products,FilterCategory,getMaxValue,getMinValue,ClearFilters}=useFilterContext();
+
+ 
+
   const [active,setactive]=useState("All");
   const getUniqueData=(data,property)=>{
   
@@ -33,6 +34,11 @@ const FilterSection = () => {
   const PriceData=getUniqueData(all_products,"price");
   console.log(PriceData);
   let maxprice=Math.max(...PriceData);
+  let minprice=Math.min(...PriceData);
+  console.log("this is min "+maxprice);
+  const [maxValue, set_maxValue] = useState(maxprice);
+  const realmin=(Math.round(minprice/100))-1
+  const [minValue, set_minValue] = useState(realmin);
   const handleInput = async (e) => {
 
     const max=e.maxValue
@@ -84,9 +90,7 @@ const FilterSection = () => {
   
 
 // }
-const onValueSChange = (values) => {
-  setValue(values)
-}
+
 
   return (
     <Wrapper>
@@ -153,18 +157,16 @@ const onValueSChange = (values) => {
       <div className='filter_price'>
         <h3>Price</h3>
         <p>
-          <span>Max :</span><FormatPrice price={maxPrice*100}/>
+          <span>Max :</span><FormatPrice price={maxValue*100}/>
          
         </p>
         <p>
-          <span>Min :</span><FormatPrice price={minPrice*100}/>
+          <span>Min :</span><FormatPrice price={minValue*100}/>
          
         </p>
-      </div>
+        <div className='multirange'>  <MultiRangeSlider
 
-    <MultiRangeSlider
-
-style={{ border: 'none', boxShadow: 'none', padding: '10 10px' }}
+style={{ border: 'none', boxShadow: 'none', padding: '10 10px' ,}}
 label='false'
 ruler='false'
 barLeftColor='#B9F3FC'
@@ -173,14 +175,30 @@ barRightColor='#B9F3FC'
 thumbLeftColor='#8EA7E9'
 thumbRightColor='#8EA7E9'
 
+
       minValue={minValue}
       maxValue={maxValue}
-			min={0}
-			max={price/100}
+			min={realmin}
+			max={maxprice/100}
 			step={50}
 			
 			onInput={handleInput}
 		/>
+    </div>
+      </div>
+
+<div className='filter-clear'>
+  <Button className="btn" onClick={()=>
+   {
+    set_maxValue(maxprice/100);
+    set_minValue(realmin)
+    return
+    ClearFilters();
+   }
+    
+    }>Clear Filter</Button>
+</div>
+ 
     </Wrapper>
      
   )
@@ -281,5 +299,10 @@ const Wrapper = styled.section`
   .filter-clear .btn {
     background-color: #ec7063;
     color: #000;
+
   }
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+  .multirange{
+    width:150px;
+  }}
 `;
